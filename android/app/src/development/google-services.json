@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "706671687188",
+    "project_id": "thinkpalm-maridock",
+    "storage_bucket": "thinkpalm-maridock.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:706671687188:android:cd5734d059ebb82c4e1901",
+        "android_client_info": {
+          "package_name": "com.platform.common.dev"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALb-8McHtNtFkeDza3Q5q5StCpipO_xSc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

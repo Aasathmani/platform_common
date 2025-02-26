@@ -1,0 +1,48 @@
+{
+  "_locale": "en",
+  "labelMaridock": "Maridock",
+  "titleApp": "Maridock",
+  "titleHome": "Home",
+  "messagePleaseAuthenticateUsingBiometric": "Please Authenticate Using Biometric or Device Lock Mechanism",
+  "errWebView": "Error Loading The Web Page. Try Again Later",
+  "hintDefaultSearch": "Search...",
+  "btnUpdate": "Update",
+  "btnLater": "Later",
+  "btnView": "View",
+  "btnOk": "Ok",
+  "btnCancel": "Cancel",
+  "userStatus": "{username} is {status}",
+  "titleImmediateUpdate": "Update Required",
+  "messageImmediateUpdate": "Kindly update this app to the latest version to improve its compatibility.",
+  "titleFlexibleUpdate": "Update Available",
+  "messageFlexibleUpdate": "There is a new version available for this app. Try out new features by updating the app.",
+  "labelSomethingWentWrong": "Something Went Wrong. Please Try Again Later",
+  "labelOk": "Ok",
+  "labelImage": "Image",
+  "labelDocument": "Document",
+  "labelNoNetworkAvailable": "No Network Available",
+  "labelCancelXConfirmation": "Are you sure you want to cancel the {label}?",
+  "@labelCancelXConfirmation": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "btnYesCancel": "Yes, Cancel",
+  "labelNoData": "No Data",
+  "btnYes": "Yes",
+  "btnNo": "No",
+  "labelNoConnection": "No Connection",
+  "labelPleaseCheckYourInternetConnection": "Please Check Your Internet Connection",
+  "btnTryAgain": "Try Again",
+  "btnDelete": "Delete",
+  "titleLogin": "Login",
+  "titleLogout": "Logout",
+  "@userStatus": {
+    "placeholders": {
+      "username": {"type": "String"},
+      "status": {"type": "String"}
+    }
+  }
+}

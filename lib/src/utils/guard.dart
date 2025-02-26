@@ -1,0 +1,94 @@
+import 'package:flutter/foundation.dart';
+import 'package:platform_common/src/utils/error_logger.dart';
+
+/// Created by Jemsheer K D on 15 September, 2023.
+/// File Name : guard
+/// Project : Maridock
+
+class Guard {
+  Guard._();
+
+  static T withDefault<T>(
+    T Function() fun, {
+    required T defaultValue,
+    Function(Object, StackTrace)? onError,
+  }) {
+    try {
+      return fun();
+    } catch (e, s) {
+      debugPrint(e.toString());
+      ErrorLogger().recordError(exception: e, stackTrace: s);
+      onError?.call(e, s);
+    }
+    return defaultValue;
+  }
+
+  static T? asNullable<T>(
+    T? Function() fun, {
+    Function(Object, StackTrace)? onError,
+  }) {
+    try {
+      return fun();
+    } catch (e, s) {
+      debugPrint(e.toString());
+      ErrorLogger().recordError(exception: e, stackTrace: s);
+      onError?.call(e, s);
+    }
+    return null;
+  }
+
+  static Future<T?> asNullableAsync<T>(
+    Future<T?> Function() fun, {
+    Function(Object, StackTrace)? onError,
+  }) async {
+    try {
+      return fun();
+    } catch (e, s) {
+      debugPrint(e.toString());
+      ErrorLogger().recordError(exception: e, stackTrace: s);
+      onError?.call(e, s);
+    }
+    return null;
+  }
+
+  static Future<T> withDefaultAsync<T>(
+    Future<T> Function() fun, {
+    required T defaultValue,
+    Function(Object, StackTrace)? onError,
+  }) async {
+    try {
+      return fun();
+    } catch (e, s) {
+      debugPrint(e.toString());
+      ErrorLogger().recordError(exception: e, stackTrace: s);
+      onError?.call(e, s);
+    }
+    return defaultValue;
+  }
+
+  static void run(
+    Function() fun, {
+    Function(Object, StackTrace)? onError,
+  }) {
+    try {
+      fun();
+    } catch (e, s) {
+      debugPrint(e.toString());
+      ErrorLogger().recordError(exception: e, stackTrace: s);
+      onError?.call(e, s);
+    }
+  }
+
+  static Future<void> runAsync(
+    Function() fun, {
+    Function(Object, StackTrace)? onError,
+  }) async {
+    try {
+      await fun();
+    } catch (e, s) {
+      debugPrint(e.toString());
+      ErrorLogger().recordError(exception: e, stackTrace: s);
+      onError?.call(e, s);
+    }
+  }
+}
