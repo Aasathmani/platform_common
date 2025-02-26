@@ -5,6 +5,7 @@ import 'package:platform_common/src/data/database/core/shared_db.dart';
 import 'package:platform_common/src/data/database/job_dao.dart';
 import 'package:platform_common/src/data/database/notification_dao.dart';
 import 'package:platform_common/src/data/database/user_dao.dart';
+import 'package:platform_common/src/data/database/user_list/user_list_dao.dart';
 
 part 'app_database.g.dart';
 
@@ -14,12 +15,14 @@ part 'app_database.g.dart';
     AuthTokens,
     Notifications,
     Jobs,
+    UserLists,
   ],
   daos: [
     UserDao,
     AuthTokenDao,
     NotificationDao,
     JobDao,
+    UserListDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -123,5 +126,6 @@ class AppDatabase extends _$AppDatabase {
         authTokens,
         notifications,
         jobs,
+        userLists,
       ];
 }

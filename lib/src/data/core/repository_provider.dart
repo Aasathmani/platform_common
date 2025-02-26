@@ -24,6 +24,8 @@ import 'package:platform_common/src/data/database/remote_config_dao.dart';
 import 'package:platform_common/src/data/database/settings_dao.dart';
 import 'package:platform_common/src/data/fcm/device_token_repository.dart';
 import 'package:platform_common/src/data/fcm/device_token_service.dart';
+import 'package:platform_common/src/data/user_list/user_list_repository.dart';
+import 'package:platform_common/src/data/user_list/user_list_service.dart';
 import 'package:platform_common/src/utils/auth/auth_util.dart';
 import 'package:platform_common/src/utils/biometric_local_auth_utils.dart';
 import 'package:platform_common/src/utils/file_downloader.dart';
@@ -145,6 +147,13 @@ UserRepository provideUserRepository() {
     userDao: provideAppDatabase().userDao,
     networkProvider: provideUserService(),
     userMapper: UserMapper(),
+  );
+}
+
+UserListRepository provideUserListRepository() {
+  return UserListRepository.instance ??= UserListRepository(
+    userListService: UserListService(),
+    userListDao: provideAppDatabase().userListDao,
   );
 }
 

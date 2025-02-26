@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platform_common/src/application/bloc/web_view/web_view_bloc.dart';
 import 'package:platform_common/src/application/core/bloc_provider.dart';
 import 'package:platform_common/src/presentation/splash/splash_page.dart';
+import 'package:platform_common/src/presentation/user_list/user_list_page.dart';
 import 'package:platform_common/src/presentation/web_view/web_view_page.dart';
 
 final Map<String, Widget Function(BuildContext context)> routes = {
@@ -10,6 +11,9 @@ final Map<String, Widget Function(BuildContext context)> routes = {
         create: (_) => provideSplashBloc(),
         child: const SplashPage(),
       ),
+  UserListPage.route: (_) => BlocProvider(create: (_)=> provideUserListBloc(),
+  child: const UserListPage(),
+  )
 /*  LoginPage.route: (_) => BlocProvider(
     create: (_) => provideLoginBloc(),
     child: const LoginPage(),

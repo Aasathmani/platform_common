@@ -3,8 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platform_common/src/application/bloc/splash/splash_bloc.dart';
 import 'package:platform_common/src/application/bloc/splash/splash_event.dart';
 import 'package:platform_common/src/application/bloc/splash/splash_state.dart';
+import 'package:platform_common/src/application/bloc/user_list/user_list_state.dart';
 import 'package:platform_common/src/core/app_constants.dart';
 import 'package:platform_common/src/presentation/core/base_state.dart';
+import 'package:platform_common/src/presentation/user_list/user_list_page.dart';
 
 class SplashPage extends StatefulWidget {
   static String route = '/';
@@ -34,6 +36,7 @@ class _SplashState extends BaseState<SplashPage> {
         /*if (state.redirectToLogin ?? false) {
           Navigator.pushReplacementNamed(context, LoginPage.route);
         }*/
+        Navigator.pushReplacementNamed(context, UserListPage.route);
       },
       builder: (context, state) {
         final width = MediaQuery.of(context).size.width;
@@ -51,7 +54,6 @@ class _SplashState extends BaseState<SplashPage> {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Center(child: _appLogo()),
             ),
           ),
         );
@@ -59,11 +61,4 @@ class _SplashState extends BaseState<SplashPage> {
     );
   }
 
-  Widget _appLogo() {
-    return Image.asset(
-      AppIcons.kAppLogo,
-      fit: BoxFit.contain,
-      width: 150,
-    );
-  }
 }
