@@ -24,6 +24,10 @@ import 'package:platform_common/src/data/database/remote_config_dao.dart';
 import 'package:platform_common/src/data/database/settings_dao.dart';
 import 'package:platform_common/src/data/fcm/device_token_repository.dart';
 import 'package:platform_common/src/data/fcm/device_token_service.dart';
+import 'package:platform_common/src/data/movie_description/movie_description_repository.dart';
+import 'package:platform_common/src/data/movie_description/movie_description_service.dart';
+import 'package:platform_common/src/data/movie_list/movie_list_repository.dart';
+import 'package:platform_common/src/data/movie_list/movie_list_service.dart';
 import 'package:platform_common/src/data/user_list/user_list_repository.dart';
 import 'package:platform_common/src/data/user_list/user_list_service.dart';
 import 'package:platform_common/src/utils/auth/auth_util.dart';
@@ -154,6 +158,20 @@ UserListRepository provideUserListRepository() {
   return UserListRepository.instance ??= UserListRepository(
     userListService: UserListService(),
     userListDao: provideAppDatabase().userListDao,
+  );
+}
+
+MovieListRepository provideMovieListRepository() {
+  return MovieListRepository.instance ??= MovieListRepository(
+    movieListService: MovieListService(),
+    movieListDao: provideAppDatabase().movieListDao,
+  );
+}
+
+MovieDescriptionRepository provideMovieDescriptionRepository() {
+  return MovieDescriptionRepository.instance ??= MovieDescriptionRepository(
+    movieDescriptionService: MovieDescriptionService(),
+    movieDescriptionDao: provideAppDatabase().movieDescriptionDao,
   );
 }
 

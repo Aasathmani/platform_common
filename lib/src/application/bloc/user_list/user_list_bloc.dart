@@ -10,26 +10,39 @@ class UserListBloc
   final UserListRepository userListRepository;
   UserListBloc({
     required this.userListRepository,
-}) : super(UserListState()) {
+  }) : super(UserListState()) {
     on<Init>((event, emit) async {
       await initialize(event: event, emit: emit);
     });
     add(Init());
+    on<MoreUserList>((event, emit) async {
+      await getMoreListUser(event: event, emit: emit);
+    });
   }
 
   Future<void> initialize({
     required Init event,
     required Emitter<UserListState> emit,
   }) async {
-    emit(state.copyWith()..processState=ProcessState.busy());
+    emit(state.copyWith()..processState = ProcessState.busy());
     try {
-      final userList = await userListRepository.getUserList();
-      emit(state.copyWith(userList: userList)..processState=ProcessState.completed());
-    }
-    catch(e){
+      final userList = await userListRepository.getUserList(state.page);
+      emit(state.copyWith(userList: userList)
+        ..processState = ProcessState.completed());
+    } catch (e) {
       showMessage(e.toString());
-      emit(state.copyWith()..processState=ProcessState.completed());
+      emit(state.copyWith()..processState = ProcessState.completed());
     }
+  }
+
+  Future<void> getMoreListUser({
+    required MoreUserList event,
+    required Emitter<UserListState> emit,
+  }) async {
+    if (state.isFetching!) return;
+    emit(state.copyWith(isFetching: true, page: event.page));
+    final userList = await userListRepository.getUserList(state.page);
+    emit(state.copyWith(userList: [...?state.userList, ...?userList],isFetching: false));
   }
 
   @override

@@ -14,9 +14,9 @@ class UserListRepository {
     required this.userListDao,
   });
 
-  Future<List<UserList>?>? getUserList() async {
+  Future<List<UserList>?>? getUserList(int page) async {
     await Guard.asNullableAsync(() async {
-      final dataFromResponse = await userListService.fetchUserList();
+      final dataFromResponse = await userListService.fetchUserList(page);
 
       if (dataFromResponse.isNotEmpty) {
         final userList = toGenericMapList(dataFromResponse['data'])

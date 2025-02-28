@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platform_common/src/application/bloc/splash/splash_bloc.dart';
 import 'package:platform_common/src/application/bloc/splash/splash_event.dart';
 import 'package:platform_common/src/application/bloc/splash/splash_state.dart';
-import 'package:platform_common/src/application/bloc/user_list/user_list_state.dart';
 import 'package:platform_common/src/core/app_constants.dart';
 import 'package:platform_common/src/presentation/core/base_state.dart';
 import 'package:platform_common/src/presentation/user_list/user_list_page.dart';

@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:platform_common/src/data/database/auth_token_dao.dart';
 import 'package:platform_common/src/data/database/core/shared_db.dart';
 import 'package:platform_common/src/data/database/job_dao.dart';
+import 'package:platform_common/src/data/database/movie_description/movie_description_dao.dart';
+import 'package:platform_common/src/data/database/movie_list/movie_list_dao.dart';
 import 'package:platform_common/src/data/database/notification_dao.dart';
 import 'package:platform_common/src/data/database/user_dao.dart';
 import 'package:platform_common/src/data/database/user_list/user_list_dao.dart';
@@ -16,6 +18,8 @@ part 'app_database.g.dart';
     Notifications,
     Jobs,
     UserLists,
+    MovieLists,
+    MovieDescriptions,
   ],
   daos: [
     UserDao,
@@ -23,6 +27,8 @@ part 'app_database.g.dart';
     NotificationDao,
     JobDao,
     UserListDao,
+    MovieListDao,
+    MovieDescriptionDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -127,5 +133,7 @@ class AppDatabase extends _$AppDatabase {
         notifications,
         jobs,
         userLists,
+        movieLists,
+        movieDescriptions,
       ];
 }

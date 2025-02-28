@@ -1,8 +1,11 @@
 import 'package:image_picker/image_picker.dart';
+import 'package:platform_common/src/application/bloc/movie_description/movie_description_bloc.dart';
+import 'package:platform_common/src/application/bloc/movie_list/movie_list_bloc.dart';
 import 'package:platform_common/src/application/bloc/splash/splash_bloc.dart';
 import 'package:platform_common/src/application/bloc/user_list/user_list_bloc.dart';
 import 'package:platform_common/src/application/bloc/web_view/web_view_bloc.dart';
 import 'package:platform_common/src/data/core/repository_provider.dart';
+import 'package:platform_common/src/presentation/movie_list/movie_list_page.dart';
 import 'package:platform_common/src/presentation/web_view/web_view_page.dart';
 import 'package:platform_common/src/utils/device_token_helper.dart';
 import 'package:platform_common/src/utils/file_util.dart';
@@ -21,6 +24,12 @@ UserListBloc provideUserListBloc() {
   );
 }
 
+MovieListBloc provideMovieListBloc() {
+  return MovieListBloc(
+    movieListRepository: provideMovieListRepository(),
+  );
+}
+
 WebViewBloc provideWebViewBloc(WebViewArgument argument) {
   return WebViewBloc(
     authRepository: provideAuthRepository(),
@@ -32,6 +41,14 @@ WebViewBloc provideWebViewBloc(WebViewArgument argument) {
     failureUrl: argument.failureUrl,
     isBackConfirmationRequired: argument.isBackConfirmationRequired,
     fileUtil: provideFileUtil(),
+  );
+}
+
+MovieDescriptionBloc provideMovieDescriptionBloc(
+  MovieDescriptionArgument argument,
+) {
+  return MovieDescriptionBloc(
+    movieId: argument.id!, movieDescriptionRepository: provideMovieDescriptionRepository(),
   );
 }
 

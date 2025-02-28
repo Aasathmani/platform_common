@@ -113,7 +113,7 @@ class _AppAppbar extends StatelessWidget {
     return Text(
       title ?? S.current.titleApp,
       overflow: TextOverflow.ellipsis,
-      style: TextStyles.h5(context)?.copyWith(
+      style: TextStyles.h3(context)?.copyWith(
         fontWeight: FontWeight.w500,
         color: theme.onPrimary,
       ),
