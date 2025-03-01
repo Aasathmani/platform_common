@@ -1,7 +1,6 @@
 import 'package:platform_common/src/data/database/core/app_database.dart';
 import 'package:platform_common/src/data/database/movie_description/movie_description_dao.dart';
 import 'package:platform_common/src/data/movie_description/movie_description_service.dart';
-import 'package:platform_common/src/utils/extensions.dart';
 import 'package:platform_common/src/utils/guard.dart';
 
 class MovieDescriptionRepository {

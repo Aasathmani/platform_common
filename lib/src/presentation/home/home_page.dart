@@ -24,9 +24,7 @@ class _HomeState extends BaseState<HomePage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (_bloc == null) {
-      _bloc = BlocProvider.of<HomeBloc>(context);
-    }
+    _bloc ??= BlocProvider.of<HomeBloc>(context);
   }
 
   @override

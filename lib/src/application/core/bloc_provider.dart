@@ -1,4 +1,5 @@
 import 'package:image_picker/image_picker.dart';
+import 'package:platform_common/src/application/bloc/create_user/create_user_bloc.dart';
 import 'package:platform_common/src/application/bloc/movie_description/movie_description_bloc.dart';
 import 'package:platform_common/src/application/bloc/movie_list/movie_list_bloc.dart';
 import 'package:platform_common/src/application/bloc/splash/splash_bloc.dart';
@@ -27,6 +28,12 @@ UserListBloc provideUserListBloc() {
 MovieListBloc provideMovieListBloc() {
   return MovieListBloc(
     movieListRepository: provideMovieListRepository(),
+  );
+}
+
+CreateUserBloc provideCreateUserBloc(){
+  return CreateUserBloc(
+    userListRepository: provideUserListRepository(),
   );
 }
 

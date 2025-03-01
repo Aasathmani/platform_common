@@ -1,8 +1,6 @@
 import 'package:platform_common/src/data/database/core/app_database.dart';
 import 'package:platform_common/src/data/database/movie_list/movie_list_dao.dart';
-import 'package:platform_common/src/data/database/user_list/user_list_dao.dart';
 import 'package:platform_common/src/data/movie_list/movie_list_service.dart';
-import 'package:platform_common/src/data/user_list/user_list_service.dart';
 import 'package:platform_common/src/utils/extensions.dart';
 import 'package:platform_common/src/utils/guard.dart';
 

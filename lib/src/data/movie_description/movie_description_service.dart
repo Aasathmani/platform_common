@@ -6,7 +6,8 @@ import 'package:platform_common/src/utils/extensions.dart';
 
 class MovieDescriptionService {
   Future<List<Map<String, dynamic>>> fetchMovieDescription(
-      String movieId) async {
+    String movieId,
+  ) async {
     List<Map<String, dynamic>>? responseData = [];
 
     try {
@@ -15,7 +16,7 @@ class MovieDescriptionService {
       final response = await http.get(
         Uri.parse(url),
       );
-      responseData = [jsonDecode(response.body) as Map<String,dynamic>] ;
+      responseData = [jsonDecode(response.body) as Map<String, dynamic>];
       if (response.statusCode == 200) {
         return responseData;
       } else {

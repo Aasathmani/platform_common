@@ -29,6 +29,11 @@ class UserListRepository {
     });
     return userListDao.getBaitCategoryList();
   }
+
+  Future<bool?> getCreateUser(Map<String,dynamic> data)async {
+    final dataFromResponse= await userListService.fetchCreateUser(data);
+    return dataFromResponse;
+  }
 }
 
 UserList? _toUserList(Map<String, dynamic> item) {

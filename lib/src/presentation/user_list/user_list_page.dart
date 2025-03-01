@@ -8,6 +8,7 @@ import 'package:platform_common/src/data/database/core/app_database.dart';
 import 'package:platform_common/src/presentation/core/app_page.dart';
 import 'package:platform_common/src/presentation/core/base_state.dart';
 import 'package:platform_common/src/presentation/core/theme/colors.dart';
+import 'package:platform_common/src/presentation/create_user/create_user_page.dart';
 import 'package:platform_common/src/presentation/movie_list/movie_list_page.dart';
 
 /// api key: f67d8258ca62da88008a27a360221bca
@@ -68,38 +69,59 @@ class _UserListPageState extends BaseState<UserListPage> {
         vertical: Units.kStandardPadding,
       ),
       child: state.userList!.isNotEmpty
-          ? ListView.builder(
-              controller: scrollController,
-              itemCount: state.userList!.length,
-              itemBuilder: (context, index) {
-                if (index == state.userList!.length) {
-                  return state.isFetching == true
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : const SizedBox.shrink();
-                }
-                final item = state.userList![index];
-                return InkWell(
-                  onTap: () {
-                    Navigator.pushNamed(context, MovieListPage.route);
-                  },
-                  child: Card(
-                    elevation: 2,
-                    margin: const EdgeInsets.symmetric(
-                      horizontal: Units.kMPadding,
-                      vertical: Units.kSPadding,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: Units.kStandardPadding,
-                        vertical: Units.kStandardPadding,
+          ? Stack(
+              children: [
+                ListView.builder(
+                  controller: scrollController,
+                  itemCount: state.userList!.length,
+                  itemBuilder: (context, index) {
+                    if (index == state.userList!.length) {
+                      return state.isFetching == true
+                          ? const Center(
+                              child: CircularProgressIndicator(),
+                            )
+                          : const SizedBox.shrink();
+                    }
+                    final item = state.userList![index];
+                    return InkWell(
+                      onTap: () {
+                        Navigator.pushNamed(context, MovieListPage.route);
+                      },
+                      child: Card(
+                        elevation: 2,
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: Units.kMPadding,
+                          vertical: Units.kSPadding,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: Units.kStandardPadding,
+                            vertical: Units.kStandardPadding,
+                          ),
+                          child: _getProjectListData(context, state, item),
+                        ),
                       ),
-                      child: _getProjectListData(context, state, item),
+                    );
+                  },
+                ),
+                Positioned(
+                  bottom: 20,
+                  right: 12,
+                  child: FloatingActionButton(
+                    backgroundColor: AppColors.primary,
+                    onPressed: () {
+                      Navigator.pushNamed(context, CreateUserPage.route);
+                    },
+                    child: const Center(
+                      child: Icon(
+                        Icons.add,
+                        color: AppColors.white,
+                      ),
                     ),
                   ),
-                );
-              })
+                ),
+              ],
+            )
           : const Center(
               child: Text("No data"),
             ),
@@ -107,7 +129,10 @@ class _UserListPageState extends BaseState<UserListPage> {
   }
 
   Widget _getProjectListData(
-      BuildContext context, UserListState state, UserList item) {
+    BuildContext context,
+    UserListState state,
+    UserList item,
+  ) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -119,7 +144,7 @@ class _UserListPageState extends BaseState<UserListPage> {
               child: ClipOval(
                 child: Image.network(
                   item.avatar!,
-                  width: 50, // Adjust size as needed
+                  width: 50,
                   height: 50,
                   fit: BoxFit.cover,
                 ),

@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:platform_common/src/application/bloc/movie_description/movie_description_bloc.dart';
 import 'package:platform_common/src/application/bloc/movie_description/movie_description_state.dart';
-import 'package:platform_common/src/core/app_constants.dart';
 import 'package:platform_common/src/data/database/core/app_database.dart';
 import 'package:platform_common/src/presentation/core/app_page.dart';
 import 'package:platform_common/src/presentation/core/base_state.dart';
@@ -79,8 +77,8 @@ class _MovieDescriptionPageState extends BaseState<MovieDescriptionPage> {
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(8),
-                      boxShadow: [
-                        const BoxShadow(
+                      boxShadow: const [
+                        BoxShadow(
                           color: Colors.black12,
                           blurRadius: 6,
                           offset: Offset(0, 4),
