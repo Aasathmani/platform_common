@@ -1,14 +1,16 @@
-Flutter development
-Languange : Dart
-Architecture : BLOC architecture
-Local DB: Drift accessor(SQL database for dart language)
-Offline feature : job scduler
+Flutter development:
+  Languange : Dart
+  Architecture : BLOC architecture
+  Local DB: Drift accessor(SQL database for dart language)
+  Offline feature : job scduler
+
 Feature available:
   1. User list 
   2. New user create feature (both online and offline)
      Based on the internet status the submit msg will showing differently.
   3. Movie list
   4. Movie description
+  5. User list and movie list both have a pagination feature .
      
 ![image](https://github.com/user-attachments/assets/91b1e829-071e-4b73-a964-9136e2d382ad)
 ![image](https://github.com/user-attachments/assets/b14328e4-a691-47d3-bf10-f4126a83d2ca)
