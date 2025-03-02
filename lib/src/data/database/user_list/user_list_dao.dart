@@ -10,7 +10,7 @@ class UserListDao extends DatabaseAccessor<AppDatabase>
 
   Future<void> saveProjectLists(List<UserList> userList) {
     return batch(
-          (batch) => batch.insertAll(
+      (batch) => batch.insertAll(
         userLists,
         userList,
         mode: InsertMode.insertOrReplace,

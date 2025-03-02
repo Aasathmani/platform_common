@@ -24,8 +24,8 @@ class JobRepository {
     return dao.createJob(job);
   }
 
-  Future<List<Job>> getNextJobs(String userId, int limit) async {
-    final jobs = await dao.getNextJobs(userId, limit);
+  Future<List<Job>> getNextJobs( int limit) async {
+    final jobs = await dao.getNextJobs( limit);
     if (jobs.isNotEmpty) {
       return jobs;
     } else {
@@ -76,25 +76,25 @@ class JobRepository {
     return dao.updateJobStatus(status, jobId);
   }
 
-  Future<void> markFailedJobsAsPending(String userId) {
-    return dao.markFailedJobsAsPending(userId);
+  Future<void> markFailedJobsAsPending() {
+    return dao.markFailedJobsAsPending();
   }
 
-  Future<int> getRemainingJobCount(String userId) async {
-    return dao.getRemainingJobCount(userId);
+  Future<int> getRemainingJobCount() async {
+    return dao.getRemainingJobCount();
   }
 
   Future<int> getRemainingJobCountByStatus({
     required String userId,
     required String status,
   }) async {
-    return dao.getRemainingJobCountByStatus(userId: userId, status: status);
+    return dao.getRemainingJobCountByStatus(status: status);
   }
 
   Future<void> updateAllJobStatus({
     required String userId,
     required String status,
   }) {
-    return dao.updateAllJobsStatus(status, userId);
+    return dao.updateAllJobsStatus(status);
   }
 }

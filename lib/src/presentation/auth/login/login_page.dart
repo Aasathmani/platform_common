@@ -28,9 +28,7 @@ class _LoginState extends BaseState<LoginPage> {
   void didChangeDependencies() {
     super.didChangeDependencies();
 
-    if (_bloc == null) {
-      _bloc = BlocProvider.of<LoginBloc>(context);
-    }
+    _bloc ??= BlocProvider.of<LoginBloc>(context);
   }
 
   @override

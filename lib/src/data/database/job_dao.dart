@@ -11,15 +11,13 @@ part 'job_dao.g.dart';
   tables: [Jobs],
   queries: {
     'deleteJobById': 'DELETE FROM jobs WHERE id = :jobId',
-    'deleteJobByType':
-        'DELETE FROM jobs WHERE type = :type AND user_id = :userId',
+    'deleteJobByType': 'DELETE FROM jobs WHERE type = :type',
     'updateJobStatus': "UPDATE jobs SET status = :status  WHERE id = :jobId",
     'markJobFailed':
         "UPDATE jobs SET status = '${JobStatus.failed}' , failure_count = failure_count + 1 WHERE id = :jobId",
     'markFailedJobsAsPending':
-        "UPDATE jobs SET status = '${JobStatus.pending}' WHERE status = '${JobStatus.failed}' AND user_id = :userId",
-    'updateAllJobsStatus':
-        "UPDATE jobs SET status = :status WHERE user_id = :userId",
+        "UPDATE jobs SET status = '${JobStatus.pending}' WHERE status = '${JobStatus.failed}'",
+    'updateAllJobsStatus': "UPDATE jobs SET status = :status",
   },
 )
 class JobDao extends DatabaseAccessor<AppDatabase> with _$JobDaoMixin {
@@ -29,10 +27,9 @@ class JobDao extends DatabaseAccessor<AppDatabase> with _$JobDaoMixin {
     return into(jobs).insert(entry);
   }
 
-  Future<List<Job>> getNextJobs(String userId, int limit) {
+  Future<List<Job>> getNextJobs(int limit) {
     return (select(jobs)
           ..where((job) => job.status.equals(JobStatus.pending))
-          ..where((job) => job.userId.equals(userId))
           ..orderBy([
             (job) =>
                 OrderingTerm(expression: job.priority, mode: OrderingMode.desc),
@@ -58,49 +55,40 @@ class JobDao extends DatabaseAccessor<AppDatabase> with _$JobDaoMixin {
   Future<Job?> getJobByType(String userId, String jobType) {
     return (select(jobs)
           ..where((job) => job.type.equals(jobType))
-          ..where((job) => job.userId.equals(userId))
           ..limit(1))
         .getSingleOrNull();
   }
 
   Stream<List<Job>> watchJobListByType(String userId, String jobType) {
-    return (select(jobs)
-          ..where((job) => job.type.equals(jobType))
-          ..where((job) => job.userId.equals(userId)))
-        .watch();
+    return (select(jobs)..where((job) => job.type.equals(jobType))).watch();
   }
 
   Future<List<Job>> getJobListByType(String userId, String jobType) {
-    return (select(jobs)
-          ..where((job) => job.type.equals(jobType))
-          ..where((job) => job.userId.equals(userId)))
-        .get();
+    return (select(jobs)..where((job) => job.type.equals(jobType))).get();
   }
 
   Stream<List<Job>> getJobListByTypeList(
     String userId,
     List<String> jobTypeList,
   ) {
-    return (select(jobs)
-          ..where((job) => job.type.isIn(jobTypeList))
-          ..where((job) => job.userId.equals(userId)))
-        .watch();
+    return (select(jobs)..where((job) => job.type.isIn(jobTypeList))).watch();
   }
 
-  Future<int> getRemainingJobCount(String userId) async {
-    final jobList =
-        await (select(jobs)..where((job) => job.userId.equals(userId))).get();
+  Future<int> getRemainingJobCount() async {
+    final jobList = await select(jobs).get();
+    return jobList.length;
+  }
+
+  Future<int> getOverallRemainingJobCount() async {
+    final jobList = await select(jobs).get();
     return jobList.length;
   }
 
   Future<int> getRemainingJobCountByStatus({
-    required String userId,
     required String status,
   }) async {
-    final jobList = await (select(jobs)
-          ..where((job) => job.userId.equals(userId))
-          ..where((job) => job.status.equals(status)))
-        .get();
+    final jobList =
+        await (select(jobs)..where((job) => job.status.equals(status))).get();
     return jobList.length;
   }
 
@@ -132,8 +120,6 @@ class Jobs extends Table {
   TextColumn get recordId => text()();
 
   TextColumn get type => text()();
-
-  TextColumn get userId => text()();
 
   IntColumn get priority => integer().withDefault(const Constant(1))();
 

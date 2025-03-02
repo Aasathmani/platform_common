@@ -27,6 +27,7 @@ class _CreateUserPageState extends BaseState<CreateUserPage> {
     super.didChangeDependencies();
     _bloc = BlocProvider.of<CreateUserBloc>(context);
     _bloc!.message.listen((value) => showMessage(value));
+    _bloc?.checkInitialConnection();
   }
 
   @override

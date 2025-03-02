@@ -7,6 +7,7 @@ import 'package:platform_common/src/data/database/movie_description/movie_descri
 import 'package:platform_common/src/data/database/movie_list/movie_list_dao.dart';
 import 'package:platform_common/src/data/database/notification_dao.dart';
 import 'package:platform_common/src/data/database/user_dao.dart';
+import 'package:platform_common/src/data/database/user_list/user_create_dao.dart';
 import 'package:platform_common/src/data/database/user_list/user_list_dao.dart';
 
 part 'app_database.g.dart';
@@ -20,6 +21,7 @@ part 'app_database.g.dart';
     UserLists,
     MovieLists,
     MovieDescriptions,
+    UserCreates,
   ],
   daos: [
     UserDao,
@@ -29,6 +31,7 @@ part 'app_database.g.dart';
     UserListDao,
     MovieListDao,
     MovieDescriptionDao,
+    UserCreateDao,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -135,5 +138,6 @@ class AppDatabase extends _$AppDatabase {
         userLists,
         movieLists,
         movieDescriptions,
+        userCreates,
       ];
 }

@@ -1109,11 +1109,6 @@ class $JobsTable extends Jobs with TableInfo<$JobsTable, Job> {
   late final GeneratedColumn<String> type = GeneratedColumn<String>(
       'type', aliasedName, false,
       type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
-  @override
-  late final GeneratedColumn<String> userId = GeneratedColumn<String>(
-      'user_id', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
   static const VerificationMeta _priorityMeta =
       const VerificationMeta('priority');
   @override
@@ -1137,7 +1132,7 @@ class $JobsTable extends Jobs with TableInfo<$JobsTable, Job> {
       defaultValue: const Constant(0));
   @override
   List<GeneratedColumn> get $columns =>
-      [id, recordId, type, userId, priority, status, failureCount];
+      [id, recordId, type, priority, status, failureCount];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1164,12 +1159,6 @@ class $JobsTable extends Jobs with TableInfo<$JobsTable, Job> {
           _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
-    }
-    if (data.containsKey('user_id')) {
-      context.handle(_userIdMeta,
-          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
-    } else if (isInserting) {
-      context.missing(_userIdMeta);
     }
     if (data.containsKey('priority')) {
       context.handle(_priorityMeta,
@@ -1202,8 +1191,6 @@ class $JobsTable extends Jobs with TableInfo<$JobsTable, Job> {
           .read(DriftSqlType.string, data['${effectivePrefix}record_id'])!,
       type: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      userId: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}user_id'])!,
       priority: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}priority'])!,
       status: attachedDatabase.typeMapping
@@ -1223,7 +1210,6 @@ class Job extends DataClass implements Insertable<Job> {
   final String id;
   final String recordId;
   final String type;
-  final String userId;
   final int priority;
   final String status;
   final int failureCount;
@@ -1231,7 +1217,6 @@ class Job extends DataClass implements Insertable<Job> {
       {required this.id,
       required this.recordId,
       required this.type,
-      required this.userId,
       required this.priority,
       required this.status,
       required this.failureCount});
@@ -1241,7 +1226,6 @@ class Job extends DataClass implements Insertable<Job> {
     map['id'] = Variable<String>(id);
     map['record_id'] = Variable<String>(recordId);
     map['type'] = Variable<String>(type);
-    map['user_id'] = Variable<String>(userId);
     map['priority'] = Variable<int>(priority);
     map['status'] = Variable<String>(status);
     map['failure_count'] = Variable<int>(failureCount);
@@ -1253,7 +1237,6 @@ class Job extends DataClass implements Insertable<Job> {
       id: Value(id),
       recordId: Value(recordId),
       type: Value(type),
-      userId: Value(userId),
       priority: Value(priority),
       status: Value(status),
       failureCount: Value(failureCount),
@@ -1267,7 +1250,6 @@ class Job extends DataClass implements Insertable<Job> {
       id: serializer.fromJson<String>(json['id']),
       recordId: serializer.fromJson<String>(json['recordId']),
       type: serializer.fromJson<String>(json['type']),
-      userId: serializer.fromJson<String>(json['userId']),
       priority: serializer.fromJson<int>(json['priority']),
       status: serializer.fromJson<String>(json['status']),
       failureCount: serializer.fromJson<int>(json['failureCount']),
@@ -1280,7 +1262,6 @@ class Job extends DataClass implements Insertable<Job> {
       'id': serializer.toJson<String>(id),
       'recordId': serializer.toJson<String>(recordId),
       'type': serializer.toJson<String>(type),
-      'userId': serializer.toJson<String>(userId),
       'priority': serializer.toJson<int>(priority),
       'status': serializer.toJson<String>(status),
       'failureCount': serializer.toJson<int>(failureCount),
@@ -1291,7 +1272,6 @@ class Job extends DataClass implements Insertable<Job> {
           {String? id,
           String? recordId,
           String? type,
-          String? userId,
           int? priority,
           String? status,
           int? failureCount}) =>
@@ -1299,7 +1279,6 @@ class Job extends DataClass implements Insertable<Job> {
         id: id ?? this.id,
         recordId: recordId ?? this.recordId,
         type: type ?? this.type,
-        userId: userId ?? this.userId,
         priority: priority ?? this.priority,
         status: status ?? this.status,
         failureCount: failureCount ?? this.failureCount,
@@ -1309,7 +1288,6 @@ class Job extends DataClass implements Insertable<Job> {
       id: data.id.present ? data.id.value : this.id,
       recordId: data.recordId.present ? data.recordId.value : this.recordId,
       type: data.type.present ? data.type.value : this.type,
-      userId: data.userId.present ? data.userId.value : this.userId,
       priority: data.priority.present ? data.priority.value : this.priority,
       status: data.status.present ? data.status.value : this.status,
       failureCount: data.failureCount.present
@@ -1324,7 +1302,6 @@ class Job extends DataClass implements Insertable<Job> {
           ..write('id: $id, ')
           ..write('recordId: $recordId, ')
           ..write('type: $type, ')
-          ..write('userId: $userId, ')
           ..write('priority: $priority, ')
           ..write('status: $status, ')
           ..write('failureCount: $failureCount')
@@ -1334,7 +1311,7 @@ class Job extends DataClass implements Insertable<Job> {
 
   @override
   int get hashCode =>
-      Object.hash(id, recordId, type, userId, priority, status, failureCount);
+      Object.hash(id, recordId, type, priority, status, failureCount);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1342,7 +1319,6 @@ class Job extends DataClass implements Insertable<Job> {
           other.id == this.id &&
           other.recordId == this.recordId &&
           other.type == this.type &&
-          other.userId == this.userId &&
           other.priority == this.priority &&
           other.status == this.status &&
           other.failureCount == this.failureCount);
@@ -1352,7 +1328,6 @@ class JobsCompanion extends UpdateCompanion<Job> {
   final Value<String> id;
   final Value<String> recordId;
   final Value<String> type;
-  final Value<String> userId;
   final Value<int> priority;
   final Value<String> status;
   final Value<int> failureCount;
@@ -1361,7 +1336,6 @@ class JobsCompanion extends UpdateCompanion<Job> {
     this.id = const Value.absent(),
     this.recordId = const Value.absent(),
     this.type = const Value.absent(),
-    this.userId = const Value.absent(),
     this.priority = const Value.absent(),
     this.status = const Value.absent(),
     this.failureCount = const Value.absent(),
@@ -1371,7 +1345,6 @@ class JobsCompanion extends UpdateCompanion<Job> {
     required String id,
     required String recordId,
     required String type,
-    required String userId,
     this.priority = const Value.absent(),
     required String status,
     this.failureCount = const Value.absent(),
@@ -1379,13 +1352,11 @@ class JobsCompanion extends UpdateCompanion<Job> {
   })  : id = Value(id),
         recordId = Value(recordId),
         type = Value(type),
-        userId = Value(userId),
         status = Value(status);
   static Insertable<Job> custom({
     Expression<String>? id,
     Expression<String>? recordId,
     Expression<String>? type,
-    Expression<String>? userId,
     Expression<int>? priority,
     Expression<String>? status,
     Expression<int>? failureCount,
@@ -1395,7 +1366,6 @@ class JobsCompanion extends UpdateCompanion<Job> {
       if (id != null) 'id': id,
       if (recordId != null) 'record_id': recordId,
       if (type != null) 'type': type,
-      if (userId != null) 'user_id': userId,
       if (priority != null) 'priority': priority,
       if (status != null) 'status': status,
       if (failureCount != null) 'failure_count': failureCount,
@@ -1407,7 +1377,6 @@ class JobsCompanion extends UpdateCompanion<Job> {
       {Value<String>? id,
       Value<String>? recordId,
       Value<String>? type,
-      Value<String>? userId,
       Value<int>? priority,
       Value<String>? status,
       Value<int>? failureCount,
@@ -1416,7 +1385,6 @@ class JobsCompanion extends UpdateCompanion<Job> {
       id: id ?? this.id,
       recordId: recordId ?? this.recordId,
       type: type ?? this.type,
-      userId: userId ?? this.userId,
       priority: priority ?? this.priority,
       status: status ?? this.status,
       failureCount: failureCount ?? this.failureCount,
@@ -1435,9 +1403,6 @@ class JobsCompanion extends UpdateCompanion<Job> {
     }
     if (type.present) {
       map['type'] = Variable<String>(type.value);
-    }
-    if (userId.present) {
-      map['user_id'] = Variable<String>(userId.value);
     }
     if (priority.present) {
       map['priority'] = Variable<int>(priority.value);
@@ -1460,7 +1425,6 @@ class JobsCompanion extends UpdateCompanion<Job> {
           ..write('id: $id, ')
           ..write('recordId: $recordId, ')
           ..write('type: $type, ')
-          ..write('userId: $userId, ')
           ..write('priority: $priority, ')
           ..write('status: $status, ')
           ..write('failureCount: $failureCount, ')
@@ -2424,6 +2388,294 @@ class MovieDescriptionsCompanion extends UpdateCompanion<MovieDescription> {
   }
 }
 
+class $UserCreatesTable extends UserCreates
+    with TableInfo<$UserCreatesTable, UserCreate> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserCreatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _jobMeta = const VerificationMeta('job');
+  @override
+  late final GeneratedColumn<String> job = GeneratedColumn<String>(
+      'job', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _submitAssetDeleteSyncStatusMeta =
+      const VerificationMeta('submitAssetDeleteSyncStatus');
+  @override
+  late final GeneratedColumn<String> submitAssetDeleteSyncStatus =
+      GeneratedColumn<String>(
+          'submit_asset_delete_sync_status', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, name, job, submitAssetDeleteSyncStatus];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_creates';
+  @override
+  VerificationContext validateIntegrity(Insertable<UserCreate> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('job')) {
+      context.handle(
+          _jobMeta, job.isAcceptableOrUnknown(data['job']!, _jobMeta));
+    } else if (isInserting) {
+      context.missing(_jobMeta);
+    }
+    if (data.containsKey('submit_asset_delete_sync_status')) {
+      context.handle(
+          _submitAssetDeleteSyncStatusMeta,
+          submitAssetDeleteSyncStatus.isAcceptableOrUnknown(
+              data['submit_asset_delete_sync_status']!,
+              _submitAssetDeleteSyncStatusMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserCreate map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserCreate(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      job: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}job'])!,
+      submitAssetDeleteSyncStatus: attachedDatabase.typeMapping.read(
+          DriftSqlType.string,
+          data['${effectivePrefix}submit_asset_delete_sync_status']),
+    );
+  }
+
+  @override
+  $UserCreatesTable createAlias(String alias) {
+    return $UserCreatesTable(attachedDatabase, alias);
+  }
+}
+
+class UserCreate extends DataClass implements Insertable<UserCreate> {
+  final String id;
+  final String name;
+  final String job;
+  final String? submitAssetDeleteSyncStatus;
+  const UserCreate(
+      {required this.id,
+      required this.name,
+      required this.job,
+      this.submitAssetDeleteSyncStatus});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['name'] = Variable<String>(name);
+    map['job'] = Variable<String>(job);
+    if (!nullToAbsent || submitAssetDeleteSyncStatus != null) {
+      map['submit_asset_delete_sync_status'] =
+          Variable<String>(submitAssetDeleteSyncStatus);
+    }
+    return map;
+  }
+
+  UserCreatesCompanion toCompanion(bool nullToAbsent) {
+    return UserCreatesCompanion(
+      id: Value(id),
+      name: Value(name),
+      job: Value(job),
+      submitAssetDeleteSyncStatus:
+          submitAssetDeleteSyncStatus == null && nullToAbsent
+              ? const Value.absent()
+              : Value(submitAssetDeleteSyncStatus),
+    );
+  }
+
+  factory UserCreate.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserCreate(
+      id: serializer.fromJson<String>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      job: serializer.fromJson<String>(json['job']),
+      submitAssetDeleteSyncStatus:
+          serializer.fromJson<String?>(json['submitAssetDeleteSyncStatus']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'name': serializer.toJson<String>(name),
+      'job': serializer.toJson<String>(job),
+      'submitAssetDeleteSyncStatus':
+          serializer.toJson<String?>(submitAssetDeleteSyncStatus),
+    };
+  }
+
+  UserCreate copyWith(
+          {String? id,
+          String? name,
+          String? job,
+          Value<String?> submitAssetDeleteSyncStatus = const Value.absent()}) =>
+      UserCreate(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        job: job ?? this.job,
+        submitAssetDeleteSyncStatus: submitAssetDeleteSyncStatus.present
+            ? submitAssetDeleteSyncStatus.value
+            : this.submitAssetDeleteSyncStatus,
+      );
+  UserCreate copyWithCompanion(UserCreatesCompanion data) {
+    return UserCreate(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      job: data.job.present ? data.job.value : this.job,
+      submitAssetDeleteSyncStatus: data.submitAssetDeleteSyncStatus.present
+          ? data.submitAssetDeleteSyncStatus.value
+          : this.submitAssetDeleteSyncStatus,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserCreate(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('job: $job, ')
+          ..write('submitAssetDeleteSyncStatus: $submitAssetDeleteSyncStatus')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, job, submitAssetDeleteSyncStatus);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserCreate &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.job == this.job &&
+          other.submitAssetDeleteSyncStatus ==
+              this.submitAssetDeleteSyncStatus);
+}
+
+class UserCreatesCompanion extends UpdateCompanion<UserCreate> {
+  final Value<String> id;
+  final Value<String> name;
+  final Value<String> job;
+  final Value<String?> submitAssetDeleteSyncStatus;
+  final Value<int> rowid;
+  const UserCreatesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.job = const Value.absent(),
+    this.submitAssetDeleteSyncStatus = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  UserCreatesCompanion.insert({
+    required String id,
+    required String name,
+    required String job,
+    this.submitAssetDeleteSyncStatus = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        name = Value(name),
+        job = Value(job);
+  static Insertable<UserCreate> custom({
+    Expression<String>? id,
+    Expression<String>? name,
+    Expression<String>? job,
+    Expression<String>? submitAssetDeleteSyncStatus,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (job != null) 'job': job,
+      if (submitAssetDeleteSyncStatus != null)
+        'submit_asset_delete_sync_status': submitAssetDeleteSyncStatus,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  UserCreatesCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? name,
+      Value<String>? job,
+      Value<String?>? submitAssetDeleteSyncStatus,
+      Value<int>? rowid}) {
+    return UserCreatesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      job: job ?? this.job,
+      submitAssetDeleteSyncStatus:
+          submitAssetDeleteSyncStatus ?? this.submitAssetDeleteSyncStatus,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (job.present) {
+      map['job'] = Variable<String>(job.value);
+    }
+    if (submitAssetDeleteSyncStatus.present) {
+      map['submit_asset_delete_sync_status'] =
+          Variable<String>(submitAssetDeleteSyncStatus.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserCreatesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('job: $job, ')
+          ..write('submitAssetDeleteSyncStatus: $submitAssetDeleteSyncStatus, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -2435,6 +2687,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $MovieListsTable movieLists = $MovieListsTable(this);
   late final $MovieDescriptionsTable movieDescriptions =
       $MovieDescriptionsTable(this);
+  late final $UserCreatesTable userCreates = $UserCreatesTable(this);
   late final UserDao userDao = UserDao(this as AppDatabase);
   late final AuthTokenDao authTokenDao = AuthTokenDao(this as AppDatabase);
   late final NotificationDao notificationDao =
@@ -2444,6 +2697,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final MovieListDao movieListDao = MovieListDao(this as AppDatabase);
   late final MovieDescriptionDao movieDescriptionDao =
       MovieDescriptionDao(this as AppDatabase);
+  late final UserCreateDao userCreateDao = UserCreateDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2455,7 +2709,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         jobs,
         userLists,
         movieLists,
-        movieDescriptions
+        movieDescriptions,
+        userCreates
       ];
 }
 
@@ -3015,7 +3270,6 @@ typedef $$JobsTableCreateCompanionBuilder = JobsCompanion Function({
   required String id,
   required String recordId,
   required String type,
-  required String userId,
   Value<int> priority,
   required String status,
   Value<int> failureCount,
@@ -3025,7 +3279,6 @@ typedef $$JobsTableUpdateCompanionBuilder = JobsCompanion Function({
   Value<String> id,
   Value<String> recordId,
   Value<String> type,
-  Value<String> userId,
   Value<int> priority,
   Value<String> status,
   Value<int> failureCount,
@@ -3048,9 +3301,6 @@ class $$JobsTableFilterComposer extends Composer<_$AppDatabase, $JobsTable> {
 
   ColumnFilters<String> get type => $composableBuilder(
       column: $table.type, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get userId => $composableBuilder(
-      column: $table.userId, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get priority => $composableBuilder(
       column: $table.priority, builder: (column) => ColumnFilters(column));
@@ -3078,9 +3328,6 @@ class $$JobsTableOrderingComposer extends Composer<_$AppDatabase, $JobsTable> {
 
   ColumnOrderings<String> get type => $composableBuilder(
       column: $table.type, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get userId => $composableBuilder(
-      column: $table.userId, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<int> get priority => $composableBuilder(
       column: $table.priority, builder: (column) => ColumnOrderings(column));
@@ -3110,9 +3357,6 @@ class $$JobsTableAnnotationComposer
 
   GeneratedColumn<String> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
-
-  GeneratedColumn<String> get userId =>
-      $composableBuilder(column: $table.userId, builder: (column) => column);
 
   GeneratedColumn<int> get priority =>
       $composableBuilder(column: $table.priority, builder: (column) => column);
@@ -3150,7 +3394,6 @@ class $$JobsTableTableManager extends RootTableManager<
             Value<String> id = const Value.absent(),
             Value<String> recordId = const Value.absent(),
             Value<String> type = const Value.absent(),
-            Value<String> userId = const Value.absent(),
             Value<int> priority = const Value.absent(),
             Value<String> status = const Value.absent(),
             Value<int> failureCount = const Value.absent(),
@@ -3160,7 +3403,6 @@ class $$JobsTableTableManager extends RootTableManager<
             id: id,
             recordId: recordId,
             type: type,
-            userId: userId,
             priority: priority,
             status: status,
             failureCount: failureCount,
@@ -3170,7 +3412,6 @@ class $$JobsTableTableManager extends RootTableManager<
             required String id,
             required String recordId,
             required String type,
-            required String userId,
             Value<int> priority = const Value.absent(),
             required String status,
             Value<int> failureCount = const Value.absent(),
@@ -3180,7 +3421,6 @@ class $$JobsTableTableManager extends RootTableManager<
             id: id,
             recordId: recordId,
             type: type,
-            userId: userId,
             priority: priority,
             status: status,
             failureCount: failureCount,
@@ -3711,6 +3951,160 @@ typedef $$MovieDescriptionsTableProcessedTableManager = ProcessedTableManager<
     ),
     MovieDescription,
     PrefetchHooks Function()>;
+typedef $$UserCreatesTableCreateCompanionBuilder = UserCreatesCompanion
+    Function({
+  required String id,
+  required String name,
+  required String job,
+  Value<String?> submitAssetDeleteSyncStatus,
+  Value<int> rowid,
+});
+typedef $$UserCreatesTableUpdateCompanionBuilder = UserCreatesCompanion
+    Function({
+  Value<String> id,
+  Value<String> name,
+  Value<String> job,
+  Value<String?> submitAssetDeleteSyncStatus,
+  Value<int> rowid,
+});
+
+class $$UserCreatesTableFilterComposer
+    extends Composer<_$AppDatabase, $UserCreatesTable> {
+  $$UserCreatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get job => $composableBuilder(
+      column: $table.job, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get submitAssetDeleteSyncStatus => $composableBuilder(
+      column: $table.submitAssetDeleteSyncStatus,
+      builder: (column) => ColumnFilters(column));
+}
+
+class $$UserCreatesTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserCreatesTable> {
+  $$UserCreatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get job => $composableBuilder(
+      column: $table.job, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get submitAssetDeleteSyncStatus => $composableBuilder(
+      column: $table.submitAssetDeleteSyncStatus,
+      builder: (column) => ColumnOrderings(column));
+}
+
+class $$UserCreatesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserCreatesTable> {
+  $$UserCreatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get job =>
+      $composableBuilder(column: $table.job, builder: (column) => column);
+
+  GeneratedColumn<String> get submitAssetDeleteSyncStatus => $composableBuilder(
+      column: $table.submitAssetDeleteSyncStatus, builder: (column) => column);
+}
+
+class $$UserCreatesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $UserCreatesTable,
+    UserCreate,
+    $$UserCreatesTableFilterComposer,
+    $$UserCreatesTableOrderingComposer,
+    $$UserCreatesTableAnnotationComposer,
+    $$UserCreatesTableCreateCompanionBuilder,
+    $$UserCreatesTableUpdateCompanionBuilder,
+    (UserCreate, BaseReferences<_$AppDatabase, $UserCreatesTable, UserCreate>),
+    UserCreate,
+    PrefetchHooks Function()> {
+  $$UserCreatesTableTableManager(_$AppDatabase db, $UserCreatesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserCreatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserCreatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserCreatesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String> job = const Value.absent(),
+            Value<String?> submitAssetDeleteSyncStatus = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              UserCreatesCompanion(
+            id: id,
+            name: name,
+            job: job,
+            submitAssetDeleteSyncStatus: submitAssetDeleteSyncStatus,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String name,
+            required String job,
+            Value<String?> submitAssetDeleteSyncStatus = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              UserCreatesCompanion.insert(
+            id: id,
+            name: name,
+            job: job,
+            submitAssetDeleteSyncStatus: submitAssetDeleteSyncStatus,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$UserCreatesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $UserCreatesTable,
+    UserCreate,
+    $$UserCreatesTableFilterComposer,
+    $$UserCreatesTableOrderingComposer,
+    $$UserCreatesTableAnnotationComposer,
+    $$UserCreatesTableCreateCompanionBuilder,
+    $$UserCreatesTableUpdateCompanionBuilder,
+    (UserCreate, BaseReferences<_$AppDatabase, $UserCreatesTable, UserCreate>),
+    UserCreate,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3728,4 +4122,6 @@ class $AppDatabaseManager {
       $$MovieListsTableTableManager(_db, _db.movieLists);
   $$MovieDescriptionsTableTableManager get movieDescriptions =>
       $$MovieDescriptionsTableTableManager(_db, _db.movieDescriptions);
+  $$UserCreatesTableTableManager get userCreates =>
+      $$UserCreatesTableTableManager(_db, _db.userCreates);
 }

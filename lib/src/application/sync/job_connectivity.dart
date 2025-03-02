@@ -48,4 +48,8 @@ class JobConnectivity {
   void dispose() {
     _subscription?.cancel();
   }
+
+  void stopTimer() {
+    jobTimer.stopTimer();
+  }
 }

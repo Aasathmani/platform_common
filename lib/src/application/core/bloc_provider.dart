@@ -1,3 +1,4 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:platform_common/src/application/bloc/create_user/create_user_bloc.dart';
 import 'package:platform_common/src/application/bloc/movie_description/movie_description_bloc.dart';
@@ -22,6 +23,9 @@ SplashBloc provideSplashBloc() {
 UserListBloc provideUserListBloc() {
   return UserListBloc(
     userListRepository: provideUserListRepository(),
+    jobConnectivity: provideJobConnectivity(),
+    jobRepository: provideJobRepository(),
+    connectivity: Connectivity(),
   );
 }
 
@@ -31,9 +35,10 @@ MovieListBloc provideMovieListBloc() {
   );
 }
 
-CreateUserBloc provideCreateUserBloc(){
+CreateUserBloc provideCreateUserBloc() {
   return CreateUserBloc(
     userListRepository: provideUserListRepository(),
+    connectivity: Connectivity(),
   );
 }
 
@@ -55,7 +60,8 @@ MovieDescriptionBloc provideMovieDescriptionBloc(
   MovieDescriptionArgument argument,
 ) {
   return MovieDescriptionBloc(
-    movieId: argument.id!, movieDescriptionRepository: provideMovieDescriptionRepository(),
+    movieId: argument.id!,
+    movieDescriptionRepository: provideMovieDescriptionRepository(),
   );
 }
 

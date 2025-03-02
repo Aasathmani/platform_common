@@ -14,10 +14,10 @@ mixin _$JobDaoMixin on DatabaseAccessor<AppDatabase> {
     );
   }
 
-  Future<int> deleteJobByType(String type, String userId) {
+  Future<int> deleteJobByType(String type) {
     return customUpdate(
-      'DELETE FROM jobs WHERE type = ?1 AND user_id = ?2',
-      variables: [Variable<String>(type), Variable<String>(userId)],
+      'DELETE FROM jobs WHERE type = ?1',
+      variables: [Variable<String>(type)],
       updates: {jobs},
       updateKind: UpdateKind.delete,
     );
@@ -41,19 +41,19 @@ mixin _$JobDaoMixin on DatabaseAccessor<AppDatabase> {
     );
   }
 
-  Future<int> markFailedJobsAsPending(String userId) {
+  Future<int> markFailedJobsAsPending() {
     return customUpdate(
-      'UPDATE jobs SET status = \'pending\' WHERE status = \'failed\' AND user_id = ?1',
-      variables: [Variable<String>(userId)],
+      'UPDATE jobs SET status = \'pending\' WHERE status = \'failed\'',
+      variables: [],
       updates: {jobs},
       updateKind: UpdateKind.update,
     );
   }
 
-  Future<int> updateAllJobsStatus(String status, String userId) {
+  Future<int> updateAllJobsStatus(String status) {
     return customUpdate(
-      'UPDATE jobs SET status = ?1 WHERE user_id = ?2',
-      variables: [Variable<String>(status), Variable<String>(userId)],
+      'UPDATE jobs SET status = ?1',
+      variables: [Variable<String>(status)],
       updates: {jobs},
       updateKind: UpdateKind.update,
     );

@@ -4,9 +4,9 @@
 library;
 
 abstract class SyncAble {
-  Future<void> syncPendingItems(String userId, String recordId);
+  Future<void> syncPendingItems(String recordId);
 
-  Future<void> onRetryExhausted(String userId, String recordId);
+  Future<void> onRetryExhausted(String recordId);
 
   Future<void> retrySync(String recordId);
 
@@ -45,3 +45,4 @@ class SyncStatus {
 }
 
 const kBasicDetailsJob = 'basic_details';
+const kSubmitUserCreate = "user_create";

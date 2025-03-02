@@ -13,3 +13,7 @@ class JobTextChanged extends CreateUserEvent {
   String job;
   JobTextChanged(this.job);
 }
+
+class NetworkFound extends CreateUserEvent {
+  NetworkFound();
+}

@@ -157,7 +157,8 @@ UserRepository provideUserRepository() {
 UserListRepository provideUserListRepository() {
   return UserListRepository.instance ??= UserListRepository(
     userListService: UserListService(),
-    userListDao: provideAppDatabase().userListDao,
+    userListDao: provideAppDatabase().userListDao, jobUtils: provideJobUtils(),
+    userCreateDao: provideAppDatabase().userCreateDao,
   );
 }
 

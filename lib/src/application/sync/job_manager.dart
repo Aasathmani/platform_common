@@ -50,14 +50,13 @@ class JobManager {
   }
 
   Future<void> sync() async {
-    final user = await _userRepository.getCurrentUser();
-    if (user == null || isSyncingSubject.value == true) {
+    if (isSyncingSubject.value == true) {
       return;
     }
 
     Future<void> syncJobs() async {
       await _networkValidator.validateNetworkReachability();
-      final jobs = await _jobRepository.getNextJobs(user.id, kMaxJobLimit);
+      final jobs = await _jobRepository.getNextJobs(kMaxJobLimit);
 
       await Future.wait(jobs.map(syncJob));
       await syncJobs();
@@ -69,7 +68,7 @@ class JobManager {
     } catch (_) {}
     isSyncingSubject.add(false);
     try {
-      await _jobRepository.markFailedJobsAsPending(user.id);
+      await _jobRepository.markFailedJobsAsPending();
     } catch (_) {}
   }
 
@@ -80,7 +79,7 @@ class JobManager {
         JobStatus.inProgress,
       );
       final repository = _syncableProvider.getRepository(job.type);
-      await repository.syncPendingItems(job.userId, job.recordId);
+      await repository.syncPendingItems(job.recordId);
       await _jobRepository.deleteJobById(job.id);
     } catch (exception) {
       if (exception is NoNetworkException) {
@@ -90,7 +89,7 @@ class JobManager {
       final failedJob = await _jobRepository.getJobById(job.id);
       if (failedJob.failureCount >= maxFailuresCount) {
         final repository = _syncableProvider.getRepository(job.type);
-        repository.onRetryExhausted(job.userId, job.recordId);
+        repository.onRetryExhausted(job.recordId);
         await _jobRepository.deleteJobById(failedJob.id);
       }
     }

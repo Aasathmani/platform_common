@@ -10,3 +10,7 @@ class MoreUserList extends UserListEvent {
     this.page,
   );
 }
+
+class NetworkFound extends UserListEvent {
+  NetworkFound();
+}

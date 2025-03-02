@@ -1,5 +1,6 @@
 import 'package:platform_common/src/application/sync/syncable.dart';
 import 'package:platform_common/src/core/exceptions.dart';
+import 'package:platform_common/src/data/core/repository_provider.dart';
 
 /// Created by Jemsheer K D on 21 February, 2025.
 /// File Name : syncable_provider
@@ -16,6 +17,8 @@ class SyncableProvider {
 
   SyncAble getRepository(String type) {
     switch (type) {
+      case kSubmitUserCreate:
+        return provideUserListRepository();
       /*case kBasicDetailsJob:
         return provideBasicDetailRepository();*/
 
@@ -31,6 +34,7 @@ class SyncableProvider {
 
   List<SyncAble> getAllRepositories() {
     return [
+      provideUserListRepository(),
       // provideBasicDetailRepository(),
     ];
   }

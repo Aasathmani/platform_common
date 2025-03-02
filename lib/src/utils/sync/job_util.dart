@@ -34,7 +34,6 @@ class JobUtils {
 
   Future<bool> scheduleJob(
     String type,
-    String userId,
     String recordId, {
     int priority = Priority.medium,
     String status = JobStatus.pending,
@@ -49,7 +48,6 @@ class JobUtils {
         type: type,
         recordId: recordId,
         priority: priority,
-        userId: userId,
         failureCount: 0,
         status: status,
       ),
