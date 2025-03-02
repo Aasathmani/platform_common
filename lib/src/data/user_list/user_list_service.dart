@@ -25,7 +25,6 @@ class UserListService {
         message: e.toString(),
       );
     }
-    return responseData;
   }
 
   Future<bool> fetchCreateUser(

@@ -79,21 +79,21 @@ android {
         development {
             dimension "api"
             applicationIdSuffix ".dev"
-            resValue "string", "app_name", "Maridock Dev"
+            resValue "string", "app_name", "Platform Common"
         }
         qa {
             dimension "api"
             applicationIdSuffix ".qa"
-            resValue "string", "app_name", "Maridock QA"
+            resValue "string", "app_name", "Platform Common"
         }
         staging {
             dimension "api"
             applicationIdSuffix ".stage"
-            resValue "string", "app_name", "Maridock Stage"
+            resValue "string", "app_name", "Platform Common"
         }
         production {
             dimension "api"
-            resValue "string", "app_name", "Maridock"
+            resValue "string", "app_name", "Platform Common"
         }
     }
 }
